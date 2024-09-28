@@ -20,6 +20,7 @@ showMozzarella.get('/', async (req, res) => {
                 [Op.or]: [ { firstFavoritePizzaId: 6 }, { secondFavoritePizzaId: 6 }],     
             }
         });
+
         res.status(200);
         res.json(turtle);
     } catch (err) {
@@ -30,10 +31,9 @@ showMozzarella.get('/', async (req, res) => {
 
 favoritePizzas.get('/', async (req, res) => {
     try {
-        const pizza = await db.sequelize.query('SELECT distinct "name" FROM "pizzas" INNER JOIN "turtles" ON "pizzas.id" = "pizzas.id" = "turtles.secondFavoritePizzaId" ', {
-             type: QueryTypes.SELECT,
+        const pizza = await db.sequelize.query('SELECT distinct pizzas.name as "Favorite pizza", pizzas.description FROM pizzas INNER JOIN turtles ON pizzas.id = turtles."firstFavoritePizzaId" or pizzas.id = turtles."secondFavoritePizzaId" ', {
+            type: QueryTypes.SELECT
         });
-
         res.status(200);
         res.json(pizza);
     } catch (err) {

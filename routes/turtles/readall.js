@@ -30,7 +30,8 @@ read.get('/:id', async (req, res) => {
                 id: id
             }
         });
-        res.status(201);
+
+        res.status(200);
         res.json(turtle);
     } catch (err) {
         res.status(404);

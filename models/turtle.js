@@ -1,6 +1,6 @@
 const { DataTypes } = require("sequelize");
 
-module.exports = (Sequelize, sequelize) => {
+module.exports = (Sequelize, sequelize, pizzas) => {
     return sequelize.define('turtles', {
         id: {
             type: Sequelize.INTEGER,
@@ -21,9 +21,17 @@ module.exports = (Sequelize, sequelize) => {
         },
         firstFavoritePizzaId: {
             type: Sequelize.INTEGER,
+            preferences: {
+                model: pizzas,
+                key: 'id'
+            }
         },
         secondFavoritePizzaId: {
             type: Sequelize.INTEGER,
+            preferences: {
+                model: pizzas,
+                key: 'id'
+            }
         }
     });
 }

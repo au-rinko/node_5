@@ -8,9 +8,10 @@ module.exports = (Sequelize, config) => {
         dialect: config.dialect
     });
     
-    const turtles = Turtle(Sequelize, sequelize);
+  
     const weapons = Weapon(Sequelize, sequelize);
     const pizzas = Pizza(Sequelize, sequelize);
+    const turtles = Turtle(Sequelize, sequelize, pizzas); 
 
     weapons.hasMany(turtles);
     pizzas.hasMany(turtles, {
