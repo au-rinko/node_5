@@ -9,7 +9,7 @@ const deleteWeapon = express.Router();
 
 deleteWeapon.delete('/:id', async(req, res) => {
     const { body, params: { id } } = req;
-
+    
     try {
         const weapon = await db.weapons.destroy({
             where: {

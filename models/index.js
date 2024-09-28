@@ -17,7 +17,6 @@ module.exports = (Sequelize, config) => {
         foreignKey: 'firstFavoritePizzaId',
         foreignKey: 'secondFavoritePizzaId',
     });
-    turtles.belongsTo(pizzas);
 
     return {
         turtles,

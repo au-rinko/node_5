@@ -1,5 +1,6 @@
 const express = require('express');
 const Sequelize = require('sequelize');
+const { Op } = require('sequelize');
 
 const config = require('../../config.json');
 const db = require('../../models')(Sequelize, config);
@@ -8,8 +9,11 @@ const readAll = express.Router();
 const read = express.Router();
 
 readAll.get('/', async (req, res) => {
+
     try {
-        const turtle = await db.turtles.findAll();
+        const turtle = await db.turtles.findAll({
+            order: [['id', 'ASC']]
+        });
         res.status(200);
         res.json(turtle);
     } catch (err) {
@@ -26,7 +30,7 @@ read.get('/:id', async (req, res) => {
                 id: id
             }
         });
-        res.status(200);
+        res.status(201);
         res.json(turtle);
     } catch (err) {
         res.status(404);

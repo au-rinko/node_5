@@ -21,7 +21,6 @@ module.exports = (Sequelize, sequelize) => {
         },
         firstFavoritePizzaId: {
             type: Sequelize.INTEGER,
-            allowNull: false,
         },
         secondFavoritePizzaId: {
             type: Sequelize.INTEGER,

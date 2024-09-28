@@ -20,6 +20,7 @@ readAllWeapons.get('/', async (req, res) => {
 
 readWeapon.get('/:id', async (req, res) => {
     const { params: { id }} = req;
+
     try {
         const weapon = await db.weapons.findOne({
             where: {

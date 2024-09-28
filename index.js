@@ -16,6 +16,7 @@ const { updateWeapon }  = require('./routes/weapons/update');
 const { updatePizza }  = require('./routes/pizzas/update');
 const { deleteWeapon }  = require('./routes/weapons/delete');
 const { deletePizza }  = require('./routes/pizzas/delete');
+const { showMozzarella, favoritePizzas, updateFat, showWeapons }  = require('./routes/queries');
 
 const app = express();
 app.use(express.json());
@@ -37,6 +38,8 @@ app.use('/api/turtles/', read);
 app.use('/api/turtles/', create);
 app.use('/api/turtles/', updateTurtle);
 app.use('/api/turtles/', deleteTurtle);
+app.use('/api/mozzarella/', showMozzarella);
+
 app.use('/api/weapons/', readAllWeapons);
 app.use('/api/weapons/', readWeapon);
 app.use('/api/weapons/', createWeapon);
@@ -47,3 +50,6 @@ app.use('/api/pizzas/', readPizza);
 app.use('/api/pizzas/', createPizza);
 app.use('/api/pizzas/', updatePizza);
 app.use('/api/pizzas/', deletePizza);
+app.use('/api/favoritepizzas/', favoritePizzas);
+app.use('/api/update/', updateFat);
+app.use('/api/weapon/dps-greater-than-100/', showWeapons);

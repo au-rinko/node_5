@@ -15,6 +15,8 @@ updateTurtle.put('/:id', async(req, res) => {
         res.send('Not enough information');
     }
 
+    console.log(body);
+
     try {
         const turtle = await db.turtles.update(body, {
             where: {
