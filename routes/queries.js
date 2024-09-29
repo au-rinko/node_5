@@ -99,7 +99,8 @@ updateFat.put('/', async (req, res) =>  {
         }
 
         res.status(200);
-        res.send('Updated');
+        res.json(pizza);
+        // res.send('Updated');
     } catch (err) {
         res.status(404);
         res.send(err);
@@ -133,7 +134,7 @@ addFavoritePizzas.put('/', async (req, res) => {
             }
         });
         
-        const turtleObj = turtle.dataValues;
+        let turtleObj = turtle.dataValues;
         turtleObj = {
             id: turtleObj.id,
             name: turtleObj.name,

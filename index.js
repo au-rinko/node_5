@@ -53,4 +53,4 @@ app.use('/api/queries/favoritepizza/', favoritePizzas);
 app.use('/api/queries/newturtle/', createTurtle);
 app.use('/api/queries/greater-than-3000/', updateFat);
 app.use('/api/queries/greater-than-100/', showWeapons);
-app.use('/api/queries/greater-than-100/', addFavoritePizzas);
+app.use('/api/queries/addfavoritepizzas/', addFavoritePizzas);
