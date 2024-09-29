@@ -8,16 +8,29 @@ const db = require('../models')(Sequelize, config);
 
 const showMozzarella = express.Router();
 const favoritePizzas = express.Router();
+const createTurtle = express.Router();
 const updateFat = express.Router();
 const showWeapons = express.Router();
+const addFavoritePizzas = express.Router();
 
 showMozzarella.get('/', async (req, res) => {
 
     try {
+
+        const pizza = await db.pizzas.findOne({
+            where: {
+                name: {
+                    [Op.startsWith]: 'Mozzarella'
+                }
+            }
+        });
+
+        const pizzaId = pizza.dataValues.id;
+
         const turtle = await db.turtles.findAll({
             order: [['id', 'ASC']],  
             where: {
-                [Op.or]: [ { firstFavoritePizzaId: 6 }, { secondFavoritePizzaId: 6 }],     
+                [Op.or]: [ { firstFavoritePizzaId: pizzaId }, { secondFavoritePizzaId: pizzaId }],     
             }
         });
 
@@ -31,11 +44,28 @@ showMozzarella.get('/', async (req, res) => {
 
 favoritePizzas.get('/', async (req, res) => {
     try {
-        const pizza = await db.sequelize.query('SELECT distinct pizzas.name as "Favorite pizza", pizzas.description FROM pizzas INNER JOIN turtles ON pizzas.id = turtles."firstFavoritePizzaId" or pizzas.id = turtles."secondFavoritePizzaId" ', {
+        const pizza = await db.sequelize.query('SELECT distinct pizzas.id, pizzas.name as "Favorite pizza", pizzas.description FROM pizzas INNER JOIN turtles ON pizzas.id = turtles."firstFavoritePizzaId" or pizzas.id = turtles."secondFavoritePizzaId" ', {
             type: QueryTypes.SELECT
         });
+        
         res.status(200);
         res.json(pizza);
+    } catch (err) {
+        res.status(404);
+        res.send(err);
+    }
+});
+
+createTurtle.post('/', async (req, res) => {
+    try {
+        const newTurtle = await db.turtles.create({ 
+            name: 'Iryna',
+            color: 'Blue',
+            weaponId: 3
+        });
+        
+        res.status(201);
+        res.json(newTurtle);
     } catch (err) {
         res.status(404);
         res.send(err);
@@ -94,9 +124,44 @@ showWeapons.get('/', async (req, res) =>  {
     }
 });
 
+addFavoritePizzas.put('/', async (req, res) => {
+    const { body } = req;
+    try {
+        const turtle = await db.turtles.findOne({
+            where: {
+                id: 5
+            }
+        });
+        
+        const turtleObj = turtle.dataValues;
+        turtleObj = {
+            id: turtleObj.id,
+            name: turtleObj.name,
+            color: turtleObj.color,
+            firstFavoritePizzaId: body.firstFavoritePizzaId,
+            secondFavoritePizzaId: body.secondFavoritePizzaId
+        };
+
+        const updatedTurtle = await db.turtles.update(turtleObj, {
+            where: {
+                id: turtleObj.id
+            }
+        });
+        
+        res.status(201);
+        res.json(updatedTurtle);
+    } catch (err) {
+        console.log(err);
+        res.status(500);
+        res.send('Cannot add info to database');
+    }
+});
+
 module.exports = {
     showMozzarella,
     favoritePizzas,
+    createTurtle,
     updateFat,
-    showWeapons
+    showWeapons,
+    addFavoritePizzas
 }
